@@ -4,7 +4,7 @@ This extension makes it easier to style VSCode by instantly applying the added C
 
 ## Getting Started
 
-![example](https://github.com/BartaG512/editor-background-by-path/raw/HEAD/images/example.gif)
+![example](https://github.com/BartaG512/custom-css-hot-reload/tree/master/images/example.gif)
 
 
 1. Install this extension.
