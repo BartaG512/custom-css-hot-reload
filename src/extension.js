@@ -116,7 +116,7 @@ function activate(context) {
   }
 
   async function performPatch(uuidSession, options) {
-    const config = vscode.workspace.getConfiguration('better_custom_css');
+    const config = vscode.workspace.getConfiguration('custom_css_hot_reload');
     console.log('config:', config);
     let html = await fs.promises.readFile(htmlFile, 'utf-8');
     html = clearExistingPatches(html);
@@ -275,17 +275,17 @@ function activate(context) {
   }
 
   const installCustomCSS = vscode.commands.registerCommand(
-    'extension.installBetterCSS',
+    'extension.installCustomCSSHotReload',
     () => {
       cmdInstall({ reload: true });
     },
   );
   const uninstallCustomCSS = vscode.commands.registerCommand(
-    'extension.uninstallBetterCSS',
+    'extension.uninstallCustomCSSHotReload',
     cmdUninstall,
   );
   const updateCustomCSS = vscode.commands.registerCommand(
-    'extension.updateBetterCSS',
+    'extension.updateCustomCSSHotReload',
     () => {
       return cmdReinstall({ reload: true });
     },
@@ -296,7 +296,7 @@ function activate(context) {
   context.subscriptions.push(updateCustomCSS);
 
   const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-  statusBarItem.text = '$(paintcan) Better Custom Css';
+  statusBarItem.text = '$(paintcan) Custom CSS Hot Reload';
   statusBarItem.show();
   context.subscriptions.push(statusBarItem);
 
@@ -326,7 +326,7 @@ function activate(context) {
   }
 
   const updateFiles = async() => {
-    const config = vscode.workspace.getConfiguration('better_custom_css');
+    const config = vscode.workspace.getConfiguration('custom_css_hot_reload');
     console.log('config:', config);
     const parsedUrls = config.imports.map((url) => {
       parsed = parsedUrl(url);
@@ -374,7 +374,7 @@ function activate(context) {
   }
 
   vscode.workspace.onDidChangeConfiguration(async(ex) => {
-    const hasChanged = ex.affectsConfiguration('better_custom_css.imports');
+    const hasChanged = ex.affectsConfiguration('custom_css_hot_reload.imports');
 
     if (!hasChanged) {
       return;
@@ -387,7 +387,7 @@ function activate(context) {
 
   // updateStatusBarTooltip();
 
-  console.log('better-custom-css is active!');
+  console.log('custom-css-hot-reload is active!');
   console.log('Application directory', appDir);
   console.log('Main HTML file', htmlFile);
 }

@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateConfig() {
-    const statusBar = document.getElementById('bartag.better-custom-css');
+    const statusBar = document.getElementById('bartag.custom-css-hot-reload');
 
     if (!statusBar) {
       return;

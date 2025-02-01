@@ -1,7 +1,7 @@
 {
-	"name": "better-custom-css",
-	"displayName": "Better custom css",
-	"description": "Custom CSS and JS ",
+	"name": "custom-css-hot-reload",
+	"displayName": "Custom CSS Hot Reload",
+	"description": "Custom CSS Hot Reload",
 	"version": "1.2.1",
 	"publisher": "bartag",
 	"author": {
@@ -13,6 +13,7 @@
 		"vscode": "^1.93.0"
 	},
 	"keywords": [
+		"style",
 		"css",
 		"jss",
 		"custom"
@@ -23,10 +24,10 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/BartaG512/better-custom-css.git/"
+		"url": "https://github.com/BartaG512/custom-css-hot-reload.git/"
 	},
 	"bugs": {
-		"url": "https://github.com/BartaG512/better-custom-css.git/issues"
+		"url": "https://github.com/BartaG512/custom-css-hot-reload.git/issues"
 	},
 	"preview": true,
 	"icon": "images/logo.png",
@@ -37,30 +38,25 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.installBetterCSS",
-				"title": "Better Custom CSS and JS: Enable"
+				"command": "extension.installCustomCSSHotReload",
+				"title": "Custom CSS Hot Reload: Enable"
 			},
 			{
-				"command": "extension.uninstallBetterCSS",
-				"title": "Better Custom CSS and JS: Disable"
+				"command": "extension.uninstallCustomCSSHotReload",
+				"title": "Custom CSS Hot Reload: Disable"
 			},
 			{
-				"command": "extension.updateBetterCSS",
-				"title": "Better Custom CSS and JS: Reload"
+				"command": "extension.updateCustomCSSHotReload",
+				"title": "Custom CSS Hot Reload: Reload"
 			}
 		],
 		"configuration": {
-			"title": "Better Custom Css",
+			"title": "Custom CSS Hot Reload",
 			"properties": {
-				"better_custom_css.imports": {
+				"custom_css_hot_reload.imports": {
 					"description": "Custom CSS/JS files, as an array of URLs, not file paths",
 					"type": "array",
 					"default": []
-				},
-				"better_custom_css.statusbar": {
-					"description": "Enable Status Indicator",
-					"type": "boolean",
-					"default": true
 				}
 			}
 		}
