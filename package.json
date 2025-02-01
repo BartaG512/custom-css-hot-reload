@@ -1,22 +1,21 @@
 {
-	"name": "editor-background-by-path",
-	"displayName": "Editor Background By Path",
-	"description": "Enables dynamic background image changes in the editor based on the file path of the active editor",
+	"name": "better-custom-css",
+	"displayName": "Better custom css",
+	"description": "Custom CSS and JS ",
 	"version": "1.2.1",
 	"publisher": "bartag",
 	"author": {
 		"email": "barta.gergo.64@gmail.com",
-		"name": "Barta Gergo",
+		"name": "Barta Gergő",
 		"url": "https://github.com/BartaG512"
 	},
 	"engines": {
 		"vscode": "^1.93.0"
 	},
 	"keywords": [
-		"background",
-		"gif",
-		"image",
-		"wallpaper"
+		"css",
+		"jss",
+		"custom"
 	],
 	"categories": [
 		"Other",
@@ -24,10 +23,10 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/BartaG512/editor-background-by-path.git/"
+		"url": "https://github.com/BartaG512/better-custom-css.git/"
 	},
 	"bugs": {
-		"url": "https://github.com/BartaG512/editor-background-by-path.git/issues"
+		"url": "https://github.com/BartaG512/better-custom-css.git/issues"
 	},
 	"preview": true,
 	"icon": "images/logo.png",
@@ -38,56 +37,30 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.installBackgroundCSS",
-				"title": "Editor Background By Path: Enable"
+				"command": "extension.installBetterCSS",
+				"title": "Better Custom CSS and JS: Enable"
 			},
 			{
-				"command": "extension.uninstallBackgroundCSS",
-				"title": "Editor Background By Path: Disable"
+				"command": "extension.uninstallBetterCSS",
+				"title": "Better Custom CSS and JS: Disable"
 			},
 			{
-				"command": "extension.updateBackgroundCSS",
-				"title": "Editor Background By Path: Reload"
+				"command": "extension.updateBetterCSS",
+				"title": "Better Custom CSS and JS: Reload"
 			}
 		],
 		"configuration": {
-			"title": "Editor Background By Path Configuration",
+			"title": "Better Custom Css",
 			"properties": {
-				"editor_background_by_path.backgrounds": {
+				"better_custom_css.imports": {
+					"description": "Custom CSS/JS files, as an array of URLs, not file paths",
 					"type": "array",
-					"items": {
-						"type": "object",
-						"properties": {
-							"pattern": {
-								"type": "string",
-								"description": "File path pattern or regex (use 'regex:<pattern>')."
-							},
-							"background": {
-								"oneOf": [
-									{
-										"type": "string",
-										"description": "Background image URL."
-									},
-									{
-										"type": "object",
-										"description": "CSS rules for background.",
-										"properties": {
-											"url": {
-												"type": "string",
-												"description": "Background image URL."
-											}
-										}
-									}
-								]
-							}
-						},
-						"required": [
-							"pattern",
-							"background"
-						]
-					},
-					"default": [],
-					"description": "Array of objects mapping file path patterns to specific backgrounds."
+					"default": []
+				},
+				"better_custom_css.statusbar": {
+					"description": "Enable Status Indicator",
+					"type": "boolean",
+					"default": true
 				}
 			}
 		}

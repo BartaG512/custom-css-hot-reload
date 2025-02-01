@@ -1,11 +1,11 @@
 exports.messages = {
 	admin: "Run VS Code with admin privileges so the changes can be applied.",
 	enabled:
-		"Editor Background By Path enabled. Restart to take effect. " +
+		"Better Custom CSS and JS enabled. Restart to take effect. " +
 		"If Code complains about it is corrupted, CLICK DON'T SHOW AGAIN. " +
 		"See README for more detail.",
-	disabled: "Editor Background By Path disabled and reverted to default. Restart to take effect.",
-	already_disabled: "Editor Background By Path.",
+	disabled: "Better Custom CSS and JS disabled and reverted to default. Restart to take effect.",
+	already_disabled: "Better Custom CSS and JS.",
 	somethingWrong: "Something went wrong: ",
 	restartIde: "Restart Visual Studio Code",
 	unableToLocateVsCodeInstallationPath:
