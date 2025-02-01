@@ -13,9 +13,10 @@
 		"vscode": "^1.93.0"
 	},
 	"keywords": [
+		"ui",
 		"style",
 		"css",
-		"jss",
+		"js",
 		"custom"
 	],
 	"categories": [
