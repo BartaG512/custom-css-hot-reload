@@ -2,11 +2,10 @@
 
 This extension makes it easier to style VSCode by instantly applying the added CSS. Just simply open the CSS file you set in the config and start editing.
 
+
 ## Getting Started
 
 ![example](https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/example.gif)
-
-
 
 1. Install this extension.
 
@@ -24,7 +23,11 @@ This extension makes it easier to style VSCode by instantly applying the added C
 4. The first time after install, activate the command "`Custom CSS Hot Reload: Enable`".
 
 5. Open the CSS file in the config and start editing
-  
+
+### Uninstall
+
+After uninstalling the extension, you need to restart VS Code.
+
 ## Extension commands
 
 Access the command palette and introduce commands you can use ***Ctrl+Shift+P*** 

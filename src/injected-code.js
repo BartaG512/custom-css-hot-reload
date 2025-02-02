@@ -2,83 +2,97 @@
 /* eslint-disable max-len */
 
 document.addEventListener('DOMContentLoaded', () => {
-  let cssContent = [];
-  let previousConfigString = '';
+	let previousConfigString = '';
 
-  function throttle(func, delay) {
-    let lastCall = 0;
-    let timeoutId;
+	function updateConfig() {
+		const statusBar = document.getElementById('bartag.custom-css-hot-reload');
 
-    return function(...args) {
-      const now = new Date().getTime();
+		if (!statusBar) {
+			return;
+		}
+		const ariaLabel = statusBar.getAttribute('aria-label');
+		const label = ariaLabel?.split(', ');
+		const [, ...restCommandString] = label;
+		const commandString = restCommandString.join(', ');
 
-      if (now - lastCall < delay) {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-          lastCall = now;
-          func(...args);
-        }, delay - (now - lastCall));
-      } else {
-        lastCall = now;
-        func(...args);
-      }
-    };
-  }
+		if (!commandString) {
+			return;
+		}
+		if (commandString !== previousConfigString) {
+			try {
+				handleCommand(commandString)
+			} catch (error) {
+				console.log('[Custom CSS Hot Reload] Cannot', error);
+			}
+		}
+	}
 
-  function updateConfig() {
-    const statusBar = document.getElementById('bartag.custom-css-hot-reload');
+	function handleCommand(configString) {
+		const { command, payload } = JSON.parse(configString);
+		if (command === 'updateContents') {
+			patchCss(payload.contents);
+		} else if (command === 'dispose') {
+			const elements = document.querySelectorAll('[data-extension="custom-css-hot-reload"]');
+			elements.forEach(element => {
+				// Remove the element from its parent
+				console.log(`🧹 Removing custom CSS hot-reload extension element: ${element.id}`);
+				element.parentNode.removeChild(element);
+			});
+		}
+		previousConfigString = configString;
+		console.log('[Custom CSS Hot Reload] 📄 Updated config for custom.');
+	}
 
-    if (!statusBar) {
-      return;
-    }
-    const airaLabel = statusBar.getAttribute('aria-label');
-    const label = airaLabel?.split(', ');
-    const [, ...restConfigString] = label;
-    const configString = restConfigString.join(', ');
+	function patchCss(cssContent) {
+		for (const id in cssContent) {
+			const style = cssContent[id];
+			const styleTag = document.getElementById(id);
 
-    if (!configString) {
-      return;
-    }
+			if (!styleTag) {
+				return;
+			}
+			const parent = styleTag.parentElement;
+			const nextSibling = styleTag.nextSibling;
+			parent.removeChild(styleTag)
+			const newStyleTag = document.createElement('style');
+			newStyleTag.id = styleTag.id;  // Az id a style tagnak, hogy egyedi legyen
+			for (let i = 0; i < styleTag.attributes.length; i++) {
+				var attr = styleTag.attributes[i];
+				newStyleTag.setAttribute(attr.name, attr.value);
+			}
+			newStyleTag.innerHTML = style;
+			// If there's a next sibling, insert before it; otherwise, append to the parent
+			if (nextSibling) {
+				parent.insertBefore(newStyleTag, nextSibling);
+			} else {
+				parent.appendChild(newStyleTag);
+			}
+			console.log(`[Custom CSS Hot Reload] ✅ CSS switched ${id}`);
+		}
+	}
 
-    if (configString !== previousConfigString) {
-      try {
-        cssContent = JSON.parse(configString);
-        quickPatchCss(cssContent);
-        previousConfigString = configString;
-        console.log('📄 Updated config for custom.');
-      } catch (error) {
-        console.log('error:', error);
-      }
-    }
-  }
+	updateConfig();
 
-  const throttledUpdateConfig = throttle(updateConfig, 200);
+	const observer = new MutationObserver(() => {
+		updateConfig();
+	});
 
-  function quickPatchCss(cssContent) {
-    for (const id in cssContent) {
-      const style = cssContent[id];
-      const styleTag = document.getElementById(id);
+	const bodyObserver = new MutationObserver((mutations, obs) => {
+		const statusBarElement = document.getElementsByClassName('statusbar')[0];
+		if (statusBarElement) {
+			console.log('found status bar element');
+			observer.observe(statusBarElement, {
+				childList: true,
+				subtree: true,
+				attributeFilter: ['aria-label']  // Only listen for aria-label changes
+			});
+			console.log('[Custom CSS Hot Reload] 👀 MutationObserver initialized to track changes in the status bar.');
+			obs.disconnect();  // Stop observing once the status bar is found
+		}
+	});
 
-      if (!styleTag) {
-        return;
-      }
-      styleTag.innerHTML = style;
-      console.log('✅ Css switched');
-    }
-  }
-
-  throttledUpdateConfig();
-
-  const observer = new MutationObserver(() => {
-    throttledUpdateConfig();
-  });
-
-  setTimeout(() => {
-    const statusBarElement = document.getElementsByClassName('statusbar')[0];
-
-    if (statusBarElement) {
-      observer.observe(statusBarElement, { childList: true, subtree: true });
-      console.log('👀 MutationObserver initialized to track changes in the status bar.');
-    }
-  }, 1000);
+	bodyObserver.observe(document.body, {
+		childList: true,
+		subtree: true
+	});
 });
