@@ -4,7 +4,7 @@ This extension makes it easier to style VSCode by instantly applying the added C
  
 ## Getting Started
 
-![example](https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/example.gif)
+![example](https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/examples/examples/example.gif)
 
 
 1. Install this extension.
@@ -61,7 +61,7 @@ Access the command palette and introduce commands you can use ***Ctrl+Shift+P***
 }
 ```
 </details>
-<img src="https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/explorer_sticky_row.png" alt="Explorer Sticky Row" width="400">
+<img src="https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/examples/explorer_sticky_row.png" alt="Explorer Sticky Row" width="400">
 
 
 <details>
@@ -210,7 +210,7 @@ Access the command palette and introduce commands you can use ***Ctrl+Shift+P***
 }
 ```
 </details>
-<img src="https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/editor-sticky-row.png" alt="Editor Tabs" width="400">
+<img src="https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/examples/editor-sticky-row.png" alt="Editor Tabs" width="400">
 
 <details>
 <summary>Editor Sticky Row</summary>
@@ -227,8 +227,7 @@ Access the command palette and introduce commands you can use ***Ctrl+Shift+P***
 }
 ```
 </details>
-<!-- <img src="./images/editor-sticky-row.png" alt="Image Description" width="400"> -->
-<img src="https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/editor-sticky-row.png" alt="Editor Sticky Rows" width="400">
+<img src="https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/examples/editor-sticky-row.png" alt="Editor Sticky Rows" width="400">
 
 ## Windows users 
 
