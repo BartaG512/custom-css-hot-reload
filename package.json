@@ -10,7 +10,7 @@
 		"url": "https://github.com/BartaG512"
 	},
 	"engines": {
-		"vscode": "^1.95.0"
+		"vscode": "^1.93.0"
 	},
 	"keywords": [
 		"ui",
@@ -30,7 +30,7 @@
 	"bugs": {
 		"url": "https://github.com/BartaG512/custom-css-hot-reload.git/issues"
 	},
-	"preview": true,
+	"preview": false,
 	"icon": "images/logo.png",
 	"activationEvents": [
 		"*"
