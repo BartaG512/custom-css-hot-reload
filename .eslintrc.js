@@ -290,7 +290,7 @@ module.exports = {
     'use-isnan': 'error',
     'valid-typeof': 'error',
     yoda: [
-      'error',
+      'error', 
       'never',
       { exceptRange: true },
     ],

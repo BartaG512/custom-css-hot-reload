@@ -19,7 +19,6 @@ class CustomCSSHotReload {
 		this.htmlFile = this.getHtmlFilePath();
 		this.debouncedUpdateFiles = debounce(100, this.updateFiles.bind(this), { atBegin: false });
 		this.config = vscode.workspace.getConfiguration('custom_css_hot_reload');
-		this.init();
 	}
 
 	init() {
@@ -27,10 +26,10 @@ class CustomCSSHotReload {
 			vscode.window.showInformationMessage(msg.unableToLocateVsCodeInstallationPath);
 		}
 
-		this.registerCommands();
 		this.setupStatusBar();
 		this.setupEventListeners();
 		this.debouncedUpdateFiles();
+		this.registerCommands();
 	}
 
 	getHtmlFilePath() {
@@ -81,7 +80,7 @@ class CustomCSSHotReload {
 	async getBackupUuid(htmlFilePath) {
 		try {
 			const htmlContent = await fs.promises.readFile(htmlFilePath, 'utf-8');
-			const m = htmlContent.match(/<!-- !! BACKGROUND-BY-PROJECT-ID ([0-9a-fA-F-]+) !! -->/);
+			const m = htmlContent.match(/<!-- !! CUSTOM-CSS-HOT-RELOAD-SESSION-ID ([0-9a-fA-F-]+) !! -->/);
 
 			if (!m) {
 				return null;
@@ -96,10 +95,11 @@ class CustomCSSHotReload {
 	async restoreBackup(backupFilePath) {
 		try {
 			if (fs.existsSync(backupFilePath)) {
-				// await fs.promises.unlink(this.htmlFile);
+				await fs.promises.unlink(this.htmlFile);
 				await fs.promises.copyFile(backupFilePath, this.htmlFile);
 			}
 		} catch (e) {
+			console.log('e:', e);
 			vscode.window.showInformationMessage(msg.admin);
 			throw e;
 		}
@@ -130,12 +130,12 @@ class CustomCSSHotReload {
 		const config = vscode.workspace.getConfiguration('custom_css_hot_reload');
 		let html = await fs.promises.readFile(this.htmlFile, 'utf-8');
 		html = this.clearExistingPatches(html);
-		const indicatorJS = await this.patchHtml(config);
+		const injectedHtml = await this.patchHtml(config);
 		html = html.replace(/<meta\s+http-equiv="Content-Security-Policy"[\s\S]*?\/>/, '');
 		html = html.replace(
 			/(<\/html>)/,
-			`<!-- !! BACKGROUND-BY-PROJECT-ID ${uuidSession} !! -->\n` +
-			`<!-- !! BACKGROUND-BY-PROJECT-START !! -->\n${indicatorJS}<!-- !! BACKGROUND-BY-PROJECT-END !! -->\n</html>`,
+			`<!-- !! CUSTOM-CSS-HOT-RELOAD-SESSION-ID ${uuidSession} !! -->\n` +
+			`<!-- !! CUSTOM-CSS-HOT-RELOAD-START !! -->\n${injectedHtml}<!-- !! CUSTOM-CSS-HOT-RELOAD-END !! -->\n</html>`,
 		);
 		try {
 			await fs.promises.writeFile(this.htmlFile, html, 'utf-8');
@@ -144,18 +144,27 @@ class CustomCSSHotReload {
 			this.disabledRestart();
 			return;
 		}
+		// if (options?.reload) {
+		// 	this.reloadWindow();
+		// }
+		this.enabledRestart();
+	}
 
-		if (options?.reload) {
-			this.reloadWindow();
-		}
+	enabledRestart() {
+		vscode.window.showInformationMessage(msg.enabled, msg.restartIde).then(btn => {
+			// if close button is clicked btn is undefined, so no reload window
+			if (btn === msg.restartIde) {
+				this.reloadWindow();
+			}
+		});
 	}
 
 	clearExistingPatches(html) {
 		html = html.replace(
-			/<!-- !! BACKGROUND-BY-PROJECT-START !! -->[\s\S]*?<!-- !! BACKGROUND-BY-PROJECT-END !! -->\n*/,
+			/<!-- !! CUSTOM-CSS-HOT-RELOAD-START !! -->[\s\S]*?<!-- !! CUSTOM-CSS-HOT-RELOAD-END !! -->\n*/,
 			'',
 		);
-		html = html.replace(/<!-- !! BACKGROUND-BY-PROJECT-ID [\w-]+ !! -->\n*/g, '');
+		html = html.replace(/<!-- !! CUSTOM-CSS-HOT-RELOAD-ID [\w-]+ !! -->\n*/g, '');
 		return html;
 	}
 
@@ -266,8 +275,8 @@ class CustomCSSHotReload {
 
 	registerCommands() {
 		this.context.subscriptions.push(
-			vscode.commands.registerCommand('extension.installCustomCSSHotReload', () => {
-				this.install({ reload: true });
+			vscode.commands.registerCommand('extension.installCustomCSSHotReload', async () => {
+				await this.install({ reload: true });
 			}),
 			vscode.commands.registerCommand('extension.uninstallCustomCSSHotReload', this.cmdUninstall.bind(this)),
 			vscode.commands.registerCommand('extension.updateCustomCSSHotReload', () => {
@@ -319,11 +328,11 @@ class CustomCSSHotReload {
 		if (Object.keys(contents).length === 0) {
 			return;
 		}
-		this.updateStatusBarTooltip({ command: 'updateContents', payload: { contents } });
+		this.sendCommandToDom({ command: 'updateContents', payload: { contents } });
 	}
 
 	disposeStylesWithoutRestart() {
-		this.updateStatusBarTooltip({ command: 'dispose' });
+		this.sendCommandToDom({ command: 'dispose' });
 	}
 
 	setupEventListeners() {
@@ -357,12 +366,8 @@ class CustomCSSHotReload {
 		});
 	}
 
-	updateStatusBarTooltip(command) {
-		console.log('command:', command);
+	sendCommandToDom(command) {
 		this.statusBarItem.tooltip = JSON.stringify(command);
-		// Needed to detect change?
-		// this.statusBarItem.hide();
-		// this.statusBarItem.show();
 	}
 
 	async dispose() {
@@ -372,7 +377,6 @@ class CustomCSSHotReload {
 
 	async deactivate() {
 		await this.cmdUninstall()
-		// await this.dispose();
 	}
 }
 
@@ -381,13 +385,14 @@ let customCSSHotReloadInstance;
 module.exports = {
 	activate: (context) => {
 		customCSSHotReloadInstance = new CustomCSSHotReload(context);
+		customCSSHotReloadInstance.init()
 	},
 	deactivate: async () => {
 
 		// const logFilePath = path.join(logDir, `test-to-run.log`);
 		// fs.writeFileSync(logFilePath, `Test ${Boolean(customCSSHotReloadInstance)}`);
 		if (customCSSHotReloadInstance) {
-			await customCSSHotReloadInstance.deactivate()
+			// await customCSSHotReloadInstance.deactivate()
 		}
 	}
 };
