@@ -228,7 +228,7 @@ Access the command palette and introduce commands you can use ***Ctrl+Shift+P***
 ```
 </details>
 <!-- <img src="./images/editor-sticky-row.png" alt="Image Description" width="400"> -->
-<img src="ttps://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/editor-sticky-row.png" alt="Editor Sticky Rows" width="400">
+<img src="https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/editor-sticky-row.png" alt="Editor Sticky Rows" width="400">
 
 ## Windows users 
 
