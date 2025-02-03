@@ -210,7 +210,7 @@ Access the command palette and introduce commands you can use ***Ctrl+Shift+P***
 }
 ```
 </details>
-<img src="https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/examples/editor-sticky-row.png" alt="Editor Tabs" width="400">
+<img src="https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/examples/editor-tabs.png" alt="Editor Tabs" width="400">
 
 <details>
 <summary>Editor Sticky Row</summary>
