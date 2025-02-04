@@ -1,5 +1,11 @@
 # Changelog
 
+## [Version 1.0.9]
+
+- Add hotReloadMode: 'onChange', 'onSave'
+- Fix to not hot reload JS files.
+- Fix cleaning up session id after disable from html.
+
 ## [Version 1.0.0]
 
 - Fix cleanup after uninstall

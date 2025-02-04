@@ -6,7 +6,6 @@ This extension makes it easier to style VSCode by instantly applying the added C
 
 ![example](https://github.com/BartaG512/custom-css-hot-reload/raw/HEAD/images/examples/example.gif)
 
-
 1. Install this extension.
 
 2. Add to `settings.json`:
@@ -30,6 +29,26 @@ For more examples see `CSS Examples` section below.
 
 4. The first time after install, activate the command "`Custom CSS Hot Reload: Enable`".
 
+## Configuration
+
+You can configure the extension to control when the hot reload should occur. There are two modes available:
+
+- `onSave`: Hot reloads the styles only when the imported CSS file is saved.
+- `onChange`: Instantly reloads styles with every edit, including on save.
+
+The default value is `onChange`.
+
+To set the mode, add the following to your `settings.json`:
+
+```json
+"custom_css_hot_reload.hotReloadMode": "onSave",
+```
+
+or
+
+```json
+"custom_css_hot_reload.hotReloadMode": "onChange",
+```
 
 ## Extension commands
 

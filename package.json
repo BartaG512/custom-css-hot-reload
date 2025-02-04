@@ -54,6 +54,12 @@
 		"configuration": {
 			"title": "Custom CSS Hot Reload",
 			"properties": {
+				"custom_css_hot_reload.hotReloadMode": {
+					"description": "Enable Hot Reload Mode",
+					"type": "string",
+					"enum": ["onChange", "onSave"],
+					"default": "onChange"
+				},
 				"custom_css_hot_reload.imports": {
 					"description": "Custom CSS/JS files, as an array of URLs, not file paths",
 					"type": "array",

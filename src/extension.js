@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
 const vscode = require('vscode');
@@ -165,7 +166,7 @@ class CustomCSSHotReload {
       /<!-- !! CUSTOM-CSS-HOT-RELOAD-START !! -->[\s\S]*?<!-- !! CUSTOM-CSS-HOT-RELOAD-END !! -->\n*/,
       '',
     );
-    html = html.replace(/<!-- !! CUSTOM-CSS-HOT-RELOAD-ID [\w-]+ !! -->\n*/g, '');
+    html = html.replace(/<!-- !! CUSTOM-CSS-HOT-RELOAD-SESSION-ID [\w-]+ !! -->\n*/g, '');
     return html;
   }
 
@@ -342,32 +343,44 @@ class CustomCSSHotReload {
   setupEventListeners() {
     this.context.subscriptions.push(
       vscode.window.onDidChangeActiveTextEditor(async() => {
-        this.debouncedUpdateFiles();
+        if (this.config.hotReloadMode === 'onChange') {
+          this.debouncedUpdateFiles();
+        }
       }),
       vscode.workspace.onDidOpenTextDocument(async() => {
-        this.debouncedUpdateFiles();
+        if (this.config.hotReloadMode === 'onChange') {
+          this.debouncedUpdateFiles();
+        }
       }),
       vscode.workspace.onDidCloseTextDocument(async() => {
-        this.debouncedUpdateFiles();
+        if (this.config.hotReloadMode === 'onChange') {
+          this.debouncedUpdateFiles();
+        }
       }),
       vscode.workspace.onDidChangeTextDocument(async(event) => {
         const filePath = event.document.uri.fsPath;
+
+        if (this.isMonitoredFile(filePath) && this.config.hotReloadMode === 'onChange') {
+          this.debouncedUpdateFiles();
+        }
+      }),
+      vscode.workspace.onDidSaveTextDocument(async(event) => {
+        const filePath = event.uri.fsPath;
 
         if (this.isMonitoredFile(filePath)) {
           this.debouncedUpdateFiles();
         }
       }),
-    );
-    vscode.workspace.onDidChangeConfiguration(async(ex) => {
-      const hasChanged = ex.affectsConfiguration('custom_css_hot_reload.imports');
+      vscode.workspace.onDidChangeConfiguration(async(ex) => {
+        const hasChanged = ex.affectsConfiguration('custom_css_hot_reload.imports') || ex.affectsConfiguration('custom_css_hot_reload.hotReloadMode');
 
-      if (!hasChanged) {
-        return;
-      }
-      this.config = vscode.workspace.getConfiguration('custom_css_hot_reload');
-      await this.cmdUpdate({ reload: false });
-      this.debouncedUpdateFiles();
-    });
+        if (hasChanged) {
+          this.config = vscode.workspace.getConfiguration('custom_css_hot_reload');
+          await this.cmdUpdate({ reload: false });
+          this.debouncedUpdateFiles();
+        }
+      }),
+    );
   }
 
   sendCommandToDom(command) {
