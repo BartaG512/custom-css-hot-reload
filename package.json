@@ -2,7 +2,7 @@
 	"name": "custom-css-hot-reload",
 	"displayName": "Custom CSS Hot Reload",
 	"description": "Custom CSS Hot Reload",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"publisher": "bartag",
 	"author": {
 		"email": "barta.gergo.64@gmail.com",
@@ -57,7 +57,10 @@
 				"custom_css_hot_reload.hotReloadMode": {
 					"description": "Enable Hot Reload Mode",
 					"type": "string",
-					"enum": ["onChange", "onSave"],
+					"enum": [
+						"onChange",
+						"onSave"
+					],
 					"default": "onChange"
 				},
 				"custom_css_hot_reload.imports": {
