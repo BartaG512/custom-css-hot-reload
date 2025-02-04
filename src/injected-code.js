@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const bodyObserver = new MutationObserver((mutations, obs) => {
-    const statusBarElement = document.getElementsByClassName('statusbar')[0];
+    const statusBarElement = document.getElementById('workbench.parts.statusbar');
 
     if (statusBarElement) {
       console.log('found status bar element');

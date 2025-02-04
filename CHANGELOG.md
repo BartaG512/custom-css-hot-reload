@@ -1,5 +1,9 @@
 # Changelog
 
+## [Version 1.0.11]
+
+-New logo
+
 ## [Version 1.0.10]
 - Added command to open imported files in editor tabs.
 

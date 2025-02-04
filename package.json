@@ -17,7 +17,14 @@
 		"style",
 		"css",
 		"js",
-		"custom"
+		"javascript",
+		"custom",
+		"interface",
+		"customise",
+		"customize",
+		"custom css",
+		"hot reload",
+		"live update"
 	],
 	"categories": [
 		"Other",
