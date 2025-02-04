@@ -284,7 +284,23 @@ class CustomCSSHotReload {
       vscode.commands.registerCommand('extension.updateCustomCSSHotReload', () => {
         return this.cmdUpdate({ reload: true });
       }),
+      vscode.commands.registerCommand('extension.openImportedFiles', this.openImportedFiles.bind(this))
     );
+  }
+
+  /**
+   * Opens the imported files specified in the configuration in separate editor tabs.
+   */
+  async openImportedFiles() {
+    const config = vscode.workspace.getConfiguration('custom_css_hot_reload');
+    for (const url of config.imports) {
+      const parsedUrl = this.parseUrl(url);
+      if (/^file:/.test(parsedUrl)) {
+        const filePath = Url.fileURLToPath(parsedUrl);
+        const document = await vscode.workspace.openTextDocument(filePath);
+        await vscode.window.showTextDocument(document, { preview: false });
+      }
+    }
   }
 
   setupStatusBar() {

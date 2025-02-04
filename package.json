@@ -49,6 +49,10 @@
 			{
 				"command": "extension.updateCustomCSSHotReload",
 				"title": "Custom CSS Hot Reload: Reload"
+			},
+			{
+				"command": "extension.openImportedFiles",
+				"title": "Custom CSS Hot Reload: Open Imported Files in Editor Tabs"
 			}
 		],
 		"configuration": {

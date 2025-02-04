@@ -57,6 +57,7 @@ Access the command palette and introduce commands you can use ***Ctrl+Shift+P***
 - ***Custom CSS Hot Reload: Enable***: It will enable the extension.
 - ***Custom CSS Hot Reload: Disable***: It will disable the extension.
 - ***Custom CSS Hot Reload: Reload***: Disable and then re-enable it.
+- ***Custom CSS Hot Reload: Open Imported Files in Editor Tabs***: Opens the imported files specified in the configuration in separate editor tabs.
 
 ## Uninstall
 
