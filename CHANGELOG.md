@@ -1,5 +1,9 @@
 # Changelog
 
+## [Version 1.0.12]
+
+- Add Auto patch html on file imported save
+
 ## [Version 1.0.11]
 
 -New logo

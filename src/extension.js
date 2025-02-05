@@ -57,7 +57,10 @@ class CustomCSSHotReload {
 
   async install(options) {
     const uuidSession = uuid.v4();
-    await this.createBackup(uuidSession);
+
+    if (options.createBackup) {
+      await this.createBackup(uuidSession);
+    }
     await this.performPatch(uuidSession, options);
   }
 
@@ -146,10 +149,13 @@ class CustomCSSHotReload {
       this.disabledRestart();
       return;
     }
+
     // if (options?.reload) {
     // 	this.reloadWindow();
     // }
-    this.enabledRestart();
+    if (options.reload) {
+      this.enabledRestart();
+    }
   }
 
   enabledRestart() {
@@ -278,13 +284,13 @@ class CustomCSSHotReload {
   registerCommands() {
     this.context.subscriptions.push(
       vscode.commands.registerCommand('extension.installCustomCSSHotReload', async() => {
-        await this.install({ reload: true });
+        await this.install({ reload: true, createBackup: true });
       }),
       vscode.commands.registerCommand('extension.uninstallCustomCSSHotReload', this.cmdUninstall.bind(this)),
       vscode.commands.registerCommand('extension.updateCustomCSSHotReload', () => {
-        return this.cmdUpdate({ reload: true });
+        return this.cmdUpdate({ reload: true, createBackup: false });
       }),
-      vscode.commands.registerCommand('extension.openImportedFiles', this.openImportedFiles.bind(this))
+      vscode.commands.registerCommand('extension.openImportedFiles', this.openImportedFiles.bind(this)),
     );
   }
 
@@ -295,6 +301,7 @@ class CustomCSSHotReload {
     const config = vscode.workspace.getConfiguration('custom_css_hot_reload');
     for (const url of config.imports) {
       const parsedUrl = this.parseUrl(url);
+
       if (/^file:/.test(parsedUrl)) {
         const filePath = Url.fileURLToPath(parsedUrl);
         const document = await vscode.workspace.openTextDocument(filePath);
@@ -384,6 +391,12 @@ class CustomCSSHotReload {
         const filePath = event.uri.fsPath;
 
         if (this.isMonitoredFile(filePath)) {
+          try {
+            await this.install({ reload: false, createBackup: false });
+          } catch (error) {
+    			  vscode.window.showInformationMessage(msg.somethingWrong + error.message);
+          }
+
           this.debouncedUpdateFiles();
         }
       }),
