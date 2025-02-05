@@ -1,7 +1,7 @@
 {
 	"name": "custom-css-hot-reload",
 	"displayName": "Custom CSS Hot Reload",
-	"description": "Custom CSS Hot Reload",
+	"description": "Customize your VS Code UI with live CSS and JS updates, no restart needed!",
 	"version": "1.1.0",
 	"publisher": "bartag",
 	"author": {
