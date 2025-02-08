@@ -35,7 +35,11 @@ class CustomCSSHotReload {
   }
 
   getHtmlFilePath() {
-    let htmlFile = path.join(this.base, 'electron-sandbox', 'workbench', 'workbench.html');
+    let htmlFile = path.join(this.base, 'electron-sandbox', 'workbench', 'workbench-dev.html');
+
+    if (!fs.existsSync(htmlFile)) {
+      htmlFile = path.join(this.base, 'electron-sandbox', 'workbench', 'workbench.html');
+    }
 
     if (!fs.existsSync(htmlFile)) {
       htmlFile = path.join(this.base, 'electron-sandbox', 'workbench', 'workbench-apc-extension.html');
