@@ -1,5 +1,9 @@
 # Changelog
 
+## [Version 1.0.13]
+
+- Fix userHome variable support
+
 ## [Version 1.0.12]
 
 - Add Auto patch html on file imported save

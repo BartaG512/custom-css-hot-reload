@@ -18,7 +18,24 @@ In the `custom_css_hot_reload.imports` array, you can define custom CSS and JS f
 ]
 ```
 
-Contents of `custom.css` file:
+### Variable Resolution
+You can use dynamic path variables in your configuration with the following supported keys:
+
+```json
+"custom_css_hot_reload.imports": [
+  "file:///${cwd}/styles.css",
+  "file:///${userHome}/theme.css",
+  "file:///${execPath}/extensions/style.css"
+]
+```
+
+Available variables:
+- ${cwd} → Current working directory
+- ${userHome} → User home directory
+- ${execPath} → VSCode executable path
+- ${pathSeparator} or / → System path separator
+
+Example contents of `custom.css` file:
 ```css
 .monaco-list .monaco-list-row.selected {
   background-color: rgba(55, 173, 203, 0.75) !important;
