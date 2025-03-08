@@ -259,7 +259,6 @@ class CustomCSSHotReload {
 		const ext = path.extname(parsed.pathname);
 		try {
 			parsed = this.parseUrl(url);
-			console.log('parsed:', parsed);
 			const fetched = await this.getContent(parsed);
 			const id = this.normalizePath(url);
 
@@ -307,7 +306,6 @@ class CustomCSSHotReload {
 		const config = vscode.workspace.getConfiguration('custom_css_hot_reload');
 		for (const url of config.imports) {
 			const parsedUrl = this.parseUrl(url);
-			console.log('parsedUrl:', parsedUrl);
 			if (/^file:/.test(parsedUrl)) {
 				const filePath = Url.fileURLToPath(parsedUrl);
 				const document = await vscode.workspace.openTextDocument(filePath);
@@ -347,7 +345,6 @@ class CustomCSSHotReload {
 		const parsedUrls = this.config.imports.map((url) => {
 			return this.parseUrl(url);
 		});
-		console.log('parsedUrls:', parsedUrls);
 		const res = parsedUrls.some((monitoredPath) => {
 			return this.compareFilePaths(monitoredPath, filePath);
 		});
@@ -358,7 +355,6 @@ class CustomCSSHotReload {
 		const parsedUrls = this.config.imports.map((url) => {
 			return this.parseUrl(url);
 		});
-		console.log('parsedUrls:', parsedUrls);
 		const contents = await this.getMatchingFileContents(parsedUrls);
 
 		if (Object.keys(contents).length === 0) {
