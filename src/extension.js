@@ -34,30 +34,38 @@ class CustomCSSHotReload {
 		this.debouncedUpdateFiles();
 		this.registerCommands();
 	}
-
 	getHtmlFilePath() {
-		let htmlFile = path.join(this.base, 'electron-sandbox', 'workbench', 'workbench-dev.html');
-
-		if (!fs.existsSync(htmlFile)) {
-			htmlFile = path.join(this.base, 'electron-sandbox', 'workbench', 'workbench.html');
+		// List of possible folders to check for backward compatibility
+		const folders = ['electron-sandbox', 'electron-browser'];
+		// List of possible HTML files to check
+		const fileNames = ['workbench-dev.html', 'workbench.html', 'workbench-apc-extension.html', 'workbench.esm.html'];
+		
+		let htmlFile = null;
+		
+		// Try each folder and file combination until we find an existing one
+		for (const folder of folders) {
+			for (const fileName of fileNames) {
+				const filePath = path.join(this.base, folder, 'workbench', fileName);
+				if (fs.existsSync(filePath)) {
+					htmlFile = filePath;
+					break;
+				}
+			}
+			if (htmlFile) break;
 		}
-
-		if (!fs.existsSync(htmlFile)) {
-			htmlFile = path.join(this.base, 'electron-sandbox', 'workbench', 'workbench-apc-extension.html');
-		}
-
-		if (!fs.existsSync(htmlFile)) {
-			htmlFile = path.join(this.base, 'electron-sandbox', 'workbench', 'workbench.esm.html');
-		}
-
-		if (!fs.existsSync(htmlFile)) {
+		
+		if (!htmlFile) {
 			vscode.window.showInformationMessage(msg.unableToLocateVsCodeInstallationPath);
 		}
 		return htmlFile;
 	}
-
+	
 	getBackupFilePath(uuid) {
-		return path.join(this.base, 'electron-sandbox', 'workbench', `workbench.${uuid}.${this.BackupPostFix}`);
+		// Determine the folder by checking which exists (electron-sandbox or electron-browser)
+		const htmlFileDir = path.dirname(this.htmlFile);
+		const folderName = path.basename(path.dirname(htmlFileDir));
+		
+		return path.join(this.base, folderName, 'workbench', `workbench.${uuid}.${this.BackupPostFix}`);
 	}
 
 	async install(options) {
