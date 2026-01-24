@@ -1,5 +1,9 @@
 # Changelog
 
+## [Version 1.1.5]
+
+- Fix hot reload not working with variable resolution (e.g. `${userHome}`)
+
 ## [Version 1.0.13]
 
 - Fix userHome variable support

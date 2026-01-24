@@ -2,7 +2,7 @@
 	"name": "custom-css-hot-reload",
 	"displayName": "Custom CSS Hot Reload",
 	"description": "Customize your VSCode UI with live CSS updates, no restart needed!",
-	"version": "1.1.4",
+	"version": "1.1.5",
 	"publisher": "bartag",
 	"author": {
 		"email": "barta.gergo.64@gmail.com",
@@ -83,7 +83,8 @@
 		}
 	},
 	"devDependencies": {
-		"eslint": "^8.40.0"
+		"eslint": "^8.40.0",
+		"mocha": "^11.7.5"
 	},
 	"dependencies": {
 		"file-url": "^3.0.0",
@@ -96,6 +97,7 @@
 		"ui"
 	],
 	"scripts": {
-		"vscode:prepublish": "npx -y rimraf node_modules && npm install --prod"
+		"vscode:prepublish": "npx -y rimraf node_modules && npm install --prod",
+		"test": "mocha test/**/*.test.js"
 	}
 }

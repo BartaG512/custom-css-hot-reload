@@ -268,7 +268,7 @@ class CustomCSSHotReload {
 		try {
 			parsed = this.parseUrl(url);
 			const fetched = await this.getContent(parsed);
-			const id = this.normalizePath(url);
+			const id = this.normalizePath(parsed);
 
 			if (ext === '.css') {
 				return `<style id="${id}" data-extension="custom-css-hot-reload">${fetched}</style>`;
